@@ -513,6 +513,62 @@ h2 {
   color: var(--ink);
   border-color: var(--bg);
 }
+.cv-card {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 26px 28px;
+  transition:
+    background 0.4s,
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+.cv-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 16px 30px -18px var(--accent);
+}
+.cv-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  display: grid;
+  place-items: center;
+}
+.cv-text {
+  flex: 1;
+  min-width: 200px;
+}
+.cv-text h3 {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+.cv-text p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.cv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .cv-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .cv-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
 footer {
   padding: 0 0 40px;
   color: var(--muted);

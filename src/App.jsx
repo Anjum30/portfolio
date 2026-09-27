@@ -5,6 +5,7 @@ import Marquee from "./components/Marquee.jsx";
 import Skills from "./components/Skills.jsx";
 import Projects from "./components/Projects.jsx";
 import Contact from "./components/Contact.jsx";
+import CVDownload from "./components/CV.jsx";
 
 export default function App() {
   const [theme, setTheme] = useState(() => {
@@ -26,6 +27,10 @@ export default function App() {
       <main id="top">
         <Hero />
         <Marquee />
+        <CVDownload
+          cvPath="/assets/Numan-Anjum-Cv.pdf"
+          fileName="Numan-Anjum-CV.pdf"
+        />
         <Skills />
         <Projects />
         <Contact />

@@ -1,3 +1,6 @@
+/* ==========================================================================
+   1. GLOBAL — THEME TOKENS
+   ========================================================================== */
 :root {
   --bg: #eef1f6;
   --surface: #fff;
@@ -14,17 +17,6 @@
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0d1224;
-    --surface: #151c36;
-    --ink: #eef1fa;
-    --muted: #9aa5c4;
-    --line: #27305a;
-    --accent: #7f92ff;
-    --accent-ink: #0d1224;
-  }
-}
 :root[data-theme="dark"] {
   --bg: #0d1224;
   --surface: #151c36;
@@ -34,6 +26,12 @@
   --accent: #7f92ff;
   --accent-ink: #0d1224;
 }
+/* Dark-mode-by-system-preference tokens live in the MEDIA QUERIES section at
+   the bottom (Section 14.1). */
+
+/* ==========================================================================
+   2. GLOBAL — BASE / RESET
+   ========================================================================== */
 html {
   scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 70px);
   scroll-behavior: smooth;
@@ -73,6 +71,236 @@ h4 {
   margin: 0;
   letter-spacing: -0.02em;
 }
+section {
+  padding: 84px 0 24px;
+}
+
+/* ==========================================================================
+   3. GLOBAL — KEYFRAME ANIMATIONS
+   (kept together for easy lookup; each is used by the component noted)
+   ========================================================================== */
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+} /* Hero: heading letters */
+@keyframes fadeup {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+} /* Hero: intro/cta */
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+} /* Hero: typing caret */
+@keyframes float {
+  50% {
+    transform: translate(-30px, 30px) rotate(20deg);
+  }
+} /* Hero: blob */
+@keyframes ping {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+  }
+} /* Hero: availability dot ring */
+@keyframes avail-glow {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.3);
+  }
+} /* Hero: availability dot blurred glow pulse */
+@keyframes sheen {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+} /* Hero: id-card top sheen */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(18, 183, 106, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 8px rgba(18, 183, 106, 0);
+  }
+} /* Hero: id-card live dot */
+@keyframes slide {
+  to {
+    transform: translateX(-50%);
+  }
+} /* Marquee: scrolling track */
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+} /* Skills: chip pop-in */
+@keyframes bump {
+  40% {
+    transform: scale(1.6);
+  }
+} /* Projects: shop cart bump; also CVDownload: success bump */
+@keyframes steam {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scaleX(1);
+  }
+  30% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px) scaleX(1.8);
+  }
+} /* Projects: coffee widget */
+@keyframes grad {
+  50% {
+    background-position: 100% 50%;
+  }
+} /* Contact: gradient background */
+@keyframes shine {
+  0%,
+  55% {
+    left: -60%;
+  }
+  100% {
+    left: 130%;
+  }
+} /* Buttons: primary shine sweep */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+} /* CVDownload: loading spinner icon */
+@keyframes pop-soft {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+} /* CVDownload: success pop */
+@keyframes alert-pulse {
+  to {
+    box-shadow: 0 0 0 14px rgba(239, 68, 68, 0);
+  }
+} /* CVDownload: error ring (same expanding-ring language as the avail dot) */
+@keyframes progress-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+} /* CVDownload: indeterminate progress fallback */
+@keyframes draw-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+} /* CVDownload: checkmark self-draw on success */
+
+/* ==========================================================================
+   4. GLOBAL — BUTTONS (shared by Hero CTA + Contact)
+   ========================================================================== */
+.btn {
+  display: inline-block;
+  padding: 13px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid var(--accent);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    background 0.25s,
+    border-color 0.25s;
+}
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px -10px var(--accent);
+}
+.btn.primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  position: relative;
+  overflow: hidden;
+}
+.btn.primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.35);
+  transform: skewX(-20deg);
+  animation: shine 3.5s infinite;
+}
+.btn.ghost {
+  margin-left: 10px;
+}
+
+/* ==========================================================================
+   5. GLOBAL — SECTION HEADING & SCROLL-REVEAL UTILITY
+   (used across Skills / Projects / Contact section headers)
+   ========================================================================== */
+h2 {
+  font-size: clamp(1.9rem, 5vw, 2.8rem);
+  margin-bottom: 10px;
+  position: relative;
+}
+h2::after {
+  content: "";
+  display: block;
+  height: 4px;
+  width: 0;
+  background: var(--accent);
+  border-radius: 4px;
+  margin-top: 8px;
+  transition: width 0.9s 0.25s;
+}
+.lead {
+  color: var(--muted);
+  max-width: 56ch;
+  margin: 0 0 30px;
+}
+.rv {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+.rv.in {
+  opacity: 1;
+  transform: none;
+}
+.rv.in h2::after {
+  width: 70px;
+}
+
+/* ==========================================================================
+   6. HEADER / NAVIGATION
+   ========================================================================== */
 header {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
@@ -104,6 +332,7 @@ nav {
   align-items: center;
 }
 nav a {
+  position: relative;
   text-decoration: none;
   font-weight: 500;
   color: var(--muted);
@@ -111,6 +340,19 @@ nav a {
 }
 nav a:hover {
   color: var(--ink);
+}
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.25s;
+}
+nav a:hover::after {
+  width: 100%;
 }
 #theme,
 .menu {
@@ -130,13 +372,25 @@ nav a:hover {
 .menu {
   display: none;
 }
-section {
-  padding: 84px 0 24px;
-}
+
+/* ==========================================================================
+   7. HERO  (<Hero />)
+   ========================================================================== */
 .hero {
   padding-top: 80px;
   position: relative;
   overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    420px circle at var(--mx, 70%) var(--my, 30%),
+    color-mix(in srgb, var(--accent) 22%, transparent),
+    transparent 70%
+  );
 }
 .blob {
   position: absolute;
@@ -149,9 +403,14 @@ section {
   opacity: 0.16;
   animation: float 9s ease-in-out infinite;
 }
-.hero h1 {
-  font-size: clamp(2.8rem, 12vw, 6rem);
-  font-weight: 800;
+.blob.b2 {
+  right: auto;
+  left: -120px;
+  top: auto;
+  bottom: -140px;
+  background: #e0a35b;
+  opacity: 0.2;
+  animation-delay: -4s;
 }
 .ch {
   display: inline-block;
@@ -188,654 +447,8 @@ section {
   opacity: 0;
   animation: fadeup 0.8s 1.1s forwards;
 }
-.btn {
-  display: inline-block;
-  padding: 13px 24px;
-  border-radius: 10px;
-  font-weight: 600;
-  text-decoration: none;
-  border: 2px solid var(--accent);
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
-}
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px -10px var(--accent);
-}
-.btn.primary {
-  background: var(--accent);
-  color: var(--accent-ink);
-}
-.btn.ghost {
-  margin-left: 10px;
-}
-h2 {
-  font-size: clamp(1.9rem, 5vw, 2.8rem);
-  margin-bottom: 10px;
-}
-.lead {
-  color: var(--muted);
-  max-width: 56ch;
-  margin: 0 0 30px;
-}
-.rv {
-  opacity: 0;
-  transform: translateY(30px);
-  transition:
-    opacity 0.7s ease,
-    transform 0.7s ease;
-}
-.rv.in {
-  opacity: 1;
-  transform: none;
-}
-.skills {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-.skill {
-  position: relative;
-  height: 100%;
-  background:
-    radial-gradient(
-      220px circle at var(--gx, 50%) var(--gy, 0%),
-      color-mix(in srgb, var(--accent) 16%, transparent),
-      transparent 70%
-    ),
-    var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 24px;
-  transform: perspective(800px) rotateX(var(--rx, 0deg))
-    rotateY(var(--ry, 0deg));
-  transition:
-    transform 0.2s,
-    border-color 0.3s,
-    box-shadow 0.3s;
-}
-.skill:hover {
-  border-color: var(--accent);
-  box-shadow: 0 16px 30px -18px var(--accent);
-}
-.badge {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: var(--accent);
-  color: var(--accent-ink);
-  display: grid;
-  place-items: center;
-  font: 800 1.15rem var(--display);
-  margin-bottom: 14px;
-  transition: transform 0.6s;
-}
-.skill:hover .badge {
-  transform: rotate(360deg) scale(1.1);
-}
-.skill h3 {
-  font-size: 1.5rem;
-  margin-bottom: 6px;
-}
-.skill p {
-  margin: 0 0 14px;
-  color: var(--muted);
-  font-size: 0.97rem;
-}
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.chip {
-  font-size: 0.82rem;
-  font-weight: 500;
-  padding: 2px 10px;
-  border-radius: 99px;
-  border: 1px solid var(--line);
-  opacity: 0;
-}
-.rv.in .chip {
-  opacity: 1;
-  animation: pop 0.5s var(--d) backwards;
-}
-.project {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 34px;
-  align-items: center;
-  margin-bottom: 64px;
-}
-.project.flip .mock {
-  order: 2;
-}
-.project h3 {
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  margin-bottom: 12px;
-}
-.project p {
-  color: var(--muted);
-  margin: 0 0 25px;
-}
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 0;
-  margin: 0 0 20px;
-  list-style: none;
-}
-.tags li {
-  border: 1px solid var(--line);
-  background: var(--surface);
-  border-radius: 8px;
-  padding: 3px 11px;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-.links a {
-  font-weight: 600;
-  margin-right: 18px;
-  color: var(--accent);
-}
-.mock {
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  overflow: hidden;
-  background: var(--surface);
-  box-shadow: 0 18px 40px -22px rgba(20, 33, 61, 0.45);
-  transition: transform 0.4s;
-}
-.mock:hover {
-  transform: translateY(-6px);
-}
-.dots {
-  display: flex;
-  gap: 6px;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--line);
-}
-.dots i {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--line);
-}
-.shop-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  font: 700 1rem var(--display);
-}
-.cart {
-  background: var(--accent);
-  color: var(--accent-ink);
-  border-radius: 99px;
-  padding: 3px 12px;
-  font: 600 0.85rem var(--body);
-}
-.bump {
-  display: inline-block;
-  animation: bump 0.4s;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  padding: 0 16px 16px;
-}
-.item {
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 8px;
-  font-size: 0.82rem;
-}
-.item b {
-  display: block;
-}
-.pic {
-  width: 100%;
-  height: 70px;
-  border-radius: 6px;
-  margin-bottom: 6px;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.3s;
-}
-.item:hover .pic {
-  transform: scale(1.06);
-}
-.item button,
-.clear {
-  margin-top: 6px;
-  width: 100%;
-  border: 0;
-  border-radius: 6px;
-  padding: 6px;
-  background: var(--ink);
-  color: var(--bg);
-  font: 600 0.78rem var(--body);
-  cursor: pointer;
-}
-.item button:active {
-  transform: scale(0.94);
-}
-.clear {
-  width: auto;
-  margin: 0 16px 16px;
-  padding: 6px 14px;
-  background: var(--line);
-  color: var(--ink);
-}
-.coffee {
-  background: var(--coffee);
-  color: var(--crema);
-  padding: 26px;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 26px;
-  align-items: center;
-}
-.cupbox {
-  position: relative;
-  width: 112px;
-  padding-top: 34px;
-}
-.steam {
-  position: absolute;
-  top: 0;
-  width: 6px;
-  height: 26px;
-  border-radius: 6px;
-  background: var(--crema);
-  opacity: 0;
-  animation: steam 2.6s ease-in infinite;
-}
-.cup {
-  position: relative;
-  width: 88px;
-  height: 66px;
-  background: var(--crema);
-  border-radius: 4px 4px 44px 44px;
-}
-.cup::after {
-  content: "";
-  position: absolute;
-  right: -22px;
-  top: 10px;
-  width: 26px;
-  height: 30px;
-  border: 7px solid var(--crema);
-  border-left: 0;
-  border-radius: 0 20px 20px 0;
-}
-.cup::before {
-  content: "";
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  top: 8px;
-  height: 12px;
-  background: #7a4a2b;
-  border-radius: 50%;
-}
-.coffee h4 {
-  font: 800 1.5rem var(--display);
-  margin: 0 0 8px;
-}
-.coffee ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-size: 0.92rem;
-}
-.coffee li {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px dashed rgba(233, 201, 160, 0.35);
-  padding: 4px 0;
-}
-.contact {
-  background: var(--ink);
-  color: var(--bg);
-  border-radius: 20px;
-  padding: 44px;
-  margin-bottom: 60px;
-}
-.contact p {
-  opacity: 0.85;
-  max-width: 50ch;
-}
-.contact .btn {
-  background: var(--bg);
-  color: var(--ink);
-  border-color: var(--bg);
-}
-.cv-card {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 26px 28px;
-  transition:
-    background 0.4s,
-    border-color 0.3s,
-    box-shadow 0.3s;
-}
-.cv-card:hover {
-  border-color: var(--accent);
-  box-shadow: 0 16px 30px -18px var(--accent);
-}
-.cv-icon {
-  flex-shrink: 0;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  background: var(--accent);
-  color: var(--accent-ink);
-  display: grid;
-  place-items: center;
-}
-.cv-text {
-  flex: 1;
-  min-width: 200px;
-}
-.cv-text h3 {
-  font-size: 1.3rem;
-  margin-bottom: 4px;
-}
-.cv-text p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-.cv-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-}
-@media (max-width: 560px) {
-  .cv-card {
-    flex-direction: column;
-    text-align: center;
-  }
-  .cv-btn {
-    width: 100%;
-    justify-content: center;
-  }
-}
-footer {
-  padding: 0 0 40px;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-@keyframes rise {
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes pop {
-  from {
-    opacity: 0;
-    transform: scale(0.4);
-  }
-}
-@keyframes slide {
-  to {
-    transform: translateX(-50%);
-  }
-}
-@keyframes shine {
-  0%,
-  55% {
-    left: -60%;
-  }
-  100% {
-    left: 130%;
-  }
-}
-@keyframes grad {
-  50% {
-    background-position: 100% 50%;
-  }
-}
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    420px circle at var(--mx, 70%) var(--my, 30%),
-    color-mix(in srgb, var(--accent) 22%, transparent),
-    transparent 70%
-  );
-}
-.blob.b2 {
-  right: auto;
-  left: -120px;
-  top: auto;
-  bottom: -140px;
-  background: #e0a35b;
-  opacity: 0.2;
-  animation-delay: -4s;
-}
-.marq {
-  margin-top: 40px;
-  border-block: 1px solid var(--line);
-  overflow: hidden;
-  padding: 14px 0;
-  background: var(--surface);
-}
-.marq div {
-  display: flex;
-  width: max-content;
-  animation: slide 24s linear infinite;
-  font: 700 1.4rem var(--display);
-  white-space: nowrap;
-}
-.marq:hover div {
-  animation-play-state: paused;
-}
-.marq span {
-  padding-right: 40px;
-}
-.marq span::after {
-  content: "✦";
-  margin-left: 40px;
-  color: var(--accent);
-}
-.btn.primary {
-  position: relative;
-  overflow: hidden;
-}
-.btn.primary::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -60%;
-  width: 40%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.35);
-  transform: skewX(-20deg);
-  animation: shine 3.5s infinite;
-}
-h2::after {
-  content: "";
-  display: block;
-  height: 4px;
-  width: 0;
-  background: var(--accent);
-  border-radius: 4px;
-  margin-top: 8px;
-  transition: width 0.9s 0.25s;
-}
-.rv.in h2::after {
-  width: 70px;
-}
-nav a {
-  position: relative;
-}
-nav a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  height: 2px;
-  width: 0;
-  background: var(--accent);
-  transition: width 0.25s;
-}
-nav a:hover::after {
-  width: 100%;
-}
-.project.rv {
-  transform: translateX(-50px);
-}
-.project.flip.rv {
-  transform: translateX(50px);
-}
-.project.rv.in,
-.project.flip.rv.in {
-  transform: none;
-}
-.contact {
-  background: linear-gradient(
-    120deg,
-    var(--ink),
-    color-mix(in srgb, var(--ink) 65%, var(--accent)),
-    var(--ink)
-  );
-  background-size: 220% 220%;
-  animation: grad 9s ease infinite;
-}
-@keyframes fadeup {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-@keyframes float {
-  50% {
-    transform: translate(-30px, 30px) rotate(20deg);
-  }
-}
-@keyframes bump {
-  40% {
-    transform: scale(1.6);
-  }
-}
-@keyframes steam {
-  0% {
-    opacity: 0;
-    transform: translateY(20px) scaleX(1);
-  }
-  30% {
-    opacity: 0.6;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-12px) scaleX(1.8);
-  }
-}
-@media (max-width: 760px) {
-  .menu {
-    display: block;
-  }
-  nav {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-    background: var(--bg);
-    border-bottom: 1px solid var(--line);
-    padding: 0 22px;
-    max-height: 0;
-    overflow: hidden;
-    transition:
-      max-height 0.35s,
-      padding 0.35s;
-  }
-  nav.open {
-    max-height: 300px;
-    padding: 14px 22px;
-  }
-  nav a {
-    padding: 10px 0;
-    font-size: 1.1rem;
-  }
-  .project {
-    grid-template-columns: 1fr;
-  }
-  .project.flip .mock {
-    order: 0;
-  }
-  .skills {
-    grid-template-columns: 1fr;
-  }
-  .contact {
-    padding: 30px 22px;
-  }
-  .btn.ghost {
-    margin: 10px 0 0;
-  }
-  .blob {
-    width: 220px;
-    height: 220px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-  }
-  .ch,
-  .intro,
-  .cta,
-  .rv,
-  .project.rv,
-  .project.flip.rv,
-  .chip {
-    opacity: 1;
-    transform: none;
-  }
-  html {
-    scroll-behavior: auto;
-  }
-}
 
-/* ---- Hero layout + ID card ---- */
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 20px;
-  align-items: start;
-}
-.hero-grid > div:first-child {
-  padding-top: 64px;
-}
-.hero h1 {
-  font-size: clamp(2.6rem, 9vw, 4.6rem);
-}
+/* ---- Hero: "Available for work" pill + animated dot ---- */
 .avail {
   display: inline-flex;
   align-items: center;
@@ -849,245 +462,36 @@ nav a:hover::after {
   margin-bottom: 18px;
 }
 .avail i {
+  position: relative;
+  display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #22c55e;
   animation: ping 1.6s infinite;
 }
-.idwrap {
-  margin-top: -80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.lanyard {
-  width: 250px;
-  position: relative;
-  transform-origin: 50% 0;
-  cursor: grab;
-  touch-action: none;
-  user-select: none;
-  -webkit-user-select: none;
-  will-change: transform;
-}
-.lanyard:active {
-  cursor: grabbing;
-}
-.strap {
-  width: 24px;
-  height: 120px;
-  margin: 0 auto;
-  background: repeating-linear-gradient(
-    180deg,
-    #2b3350 0 10px,
-    #1b2138 10px 20px
-  );
-}
-.clip {
-  width: 34px;
-  height: 22px;
-  margin: 0 auto -8px;
-  position: relative;
-  z-index: 2;
-  background: linear-gradient(#e6e9f2, #aeb5c7);
-  border-radius: 5px 5px 10px 10px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
-}
-.badge-card {
-  position: relative;
-  overflow: hidden;
-  background: #fff;
-  color: #14213d;
-  border-radius: 20px;
-  text-align: center;
-  box-shadow: 0 30px 50px -24px rgba(20, 33, 61, 0.6);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  padding-bottom: 16px;
-}
-.bc-top {
-  position: relative;
-  height: 100px;
-  background: linear-gradient(120deg, #7c3aed, #2f4bff, #06b6d4, #7c3aed);
-  background-size: 300% 300%;
-  animation: grad 8s ease infinite;
-}
-.slot {
-  position: absolute;
-  top: 14px;
-  left: 50%;
-  width: 44px;
-  height: 8px;
-  margin-left: -22px;
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.28);
-}
-.bc-photo {
-  position: relative;
-  width: 86px;
-  height: 86px;
-  margin: -43px auto 0;
-  display: grid;
-  place-items: center;
-}
-.bc-photo::before {
+/* Soft blurred glow pulsing behind the dot */
+.avail i::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -5px;
+  z-index: -1;
   border-radius: 50%;
-  background: conic-gradient(#06b6d4, #7c3aed, #2f4bff, #06b6d4);
-  animation: spin 5s linear infinite;
-}
-.bc-photo span {
-  position: relative;
-  width: 78px;
-  height: 78px;
-  border-radius: 50%;
-  background: #14213d;
-  color: #fff;
-  display: grid;
-  place-items: center;
-  font: 800 1.7rem var(--display);
-}
-.badge-card h3 {
-  font-size: 1.35rem;
-  margin: 12px 0 6px;
-}
-.bc-role {
-  display: inline-block;
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 3px 12px;
-  border-radius: 99px;
-  background: #eef1f6;
-  border: 1px solid #d5dbe8;
-}
-.bc-info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  text-align: left;
-  margin: 14px 16px 12px;
-  padding: 12px;
-  border: 1px solid #d5dbe8;
-  border-radius: 12px;
-  font-size: 0.8rem;
-}
-.bc-info small {
-  display: block;
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  color: #6b7591;
-}
-.bc-info b {
-  font-weight: 600;
-}
-.bc-info .ok {
-  color: #16a34a;
-}
-.bc-foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin: 0 16px;
-  text-align: left;
-}
-.barcode {
-  display: flex;
-  gap: 2px;
-  height: 28px;
-  align-items: flex-end;
-  position: relative;
-}
-.barcode span {
-  width: var(--w);
-  background: #14213d;
-}
-.barcode::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 2px;
-  background: #ef4444;
-  animation: scan 2.4s ease-in-out infinite alternate;
-}
-.bc-id {
-  display: grid;
-  font-size: 0.6rem;
-  letter-spacing: 0.06em;
-  color: #6b7591;
-  text-align: right;
-}
-.bc-id b {
-  color: #14213d;
-  font-size: 0.72rem;
-}
-.badge-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    115deg,
-    transparent 35%,
-    rgba(255, 255, 255, 0.6) 50%,
-    transparent 65%
-  );
-  transform: translateX(-120%);
-  animation: sheen 5s 2s infinite;
-}
-.idhint {
-  font-size: 0.85rem;
-  color: var(--muted);
-  margin: 22px 0 0;
-}
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes scan {
-  to {
-    left: 100%;
-  }
-}
-@keyframes sheen {
-  40%,
-  100% {
-    transform: translateX(120%);
-  }
-}
-@keyframes ping {
-  0% {
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
-  }
-  100% {
-    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
-  }
-}
-@media (max-width: 860px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-  }
-  .hero-grid > div:first-child {
-    padding-top: 24px;
-  }
-  .idwrap {
-    margin-top: 10px;
-  }
-  .strap {
-    height: 70px;
-  }
+  background: #22c55e;
+  filter: blur(5px);
+  opacity: 0.5;
+  animation: avail-glow 1.8s ease-in-out infinite;
 }
 
-/* ---- Hanging ID card (uses the theme tokens, so it is light in light mode and dark in dark mode) ---- */
+/* ---- Hero ID card (theme-aware: light in light mode, dark in dark mode) ---- */
 .hero-grid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   gap: 20px;
   align-items: start;
+}
+.hero-grid > div:first-child {
+  padding-top: 64px;
 }
 .hero-grid h1 {
   font-size: clamp(2.8rem, 5.6vw, 4.8rem);
@@ -1278,22 +682,8 @@ nav a:hover::after {
   color: var(--muted);
   margin: 0;
 }
-@keyframes sheen {
-  from {
-    background-position: 150% 0;
-  }
-  to {
-    background-position: -50% 0;
-  }
-}
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(18, 183, 106, 0.6);
-  }
-  100% {
-    box-shadow: 0 0 0 8px rgba(18, 183, 106, 0);
-  }
-}
+
+/* ---- Hero ID card: responsive stack (≤900px) ---- */
 @media (max-width: 900px) {
   .hero-grid {
     grid-template-columns: 1fr;
@@ -1307,5 +697,700 @@ nav a:hover::after {
   }
   .strap {
     height: 70px;
+  }
+}
+
+/* ==========================================================================
+   8. MARQUEE  (<Marquee />)
+   ========================================================================== */
+.marq {
+  margin-top: 40px;
+  border-block: 1px solid var(--line);
+  overflow: hidden;
+  padding: 14px 0;
+  background: var(--surface);
+}
+.marq div {
+  display: flex;
+  width: max-content;
+  animation: slide 24s linear infinite;
+  font: 700 1.4rem var(--display);
+  white-space: nowrap;
+}
+.marq:hover div {
+  animation-play-state: paused;
+}
+.marq span {
+  padding-right: 40px;
+}
+.marq span::after {
+  content: "✦";
+  margin-left: 40px;
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   9. CV DOWNLOAD  (<CV />)
+   ========================================================================== */
+.cv-card {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 26px 28px;
+  transition:
+    background 0.4s,
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+.cv-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 16px 30px -18px var(--accent);
+}
+.cv-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  display: grid;
+  place-items: center;
+  transition: transform 0.6s;
+}
+/* Same spin + grow as the Skills badge, triggered when hovering the card */
+.cv-card:hover .cv-icon {
+  transform: rotate(360deg) scale(1.1);
+}
+.cv-text {
+  flex: 1;
+  min-width: 200px;
+}
+.cv-text h3 {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+.cv-text p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.cv-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease;
+}
+.cv-btn.is-loading,
+.cv-btn.is-success,
+.cv-btn.is-error {
+  cursor: default;
+}
+/* Pause the idle shine sweep while a status is active — keeps focus on the
+   progress bar / icon instead of two animations competing. */
+.cv-btn.is-loading::after,
+.cv-btn.is-success::after,
+.cv-btn.is-error::after {
+  animation: none;
+  opacity: 0;
+}
+/* ---- Loading: real download-progress fill ---- */
+.cv-progress {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  width: 0%;
+  background: rgba(255, 255, 255, 0.22);
+  transition: width 0.25s linear;
+  z-index: 0;
+}
+.cv-progress.is-indeterminate {
+  width: 40% !important;
+  animation: progress-sweep 1.1s ease-in-out infinite;
+}
+/* ---- Icon crossfade stack (smooth swap instead of an instant jump) ---- */
+.cv-icon-stack {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.cv-icon-state {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(0.6) rotate(-8deg);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+.cv-icon-state.active {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+.cv-icon-state.spin.active {
+  animation: spin 0.9s linear infinite;
+}
+.check-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.cv-icon-state.active .check-path {
+  animation: draw-check 0.4s 0.05s ease forwards;
+}
+.cv-btn-label {
+  position: relative;
+  z-index: 1;
+}
+/* ---- Success: gentle pop, no hard "bump" jump ---- */
+.cv-btn.is-success {
+  background: #16a34a;
+  border-color: #16a34a;
+  animation: pop-soft 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* ---- Error: soft expanding ring pulse — same visual language as the
+   "Available for work" dot, instead of a jerky side-to-side shake ---- */
+.cv-btn.is-error {
+  background: #ef4444;
+  border-color: #ef4444;
+}
+.cv-btn.is-error::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55);
+  animation: alert-pulse 0.6s ease-out;
+  pointer-events: none;
+}
+.cv-error {
+  margin-top: 10px;
+  color: #ef4444;
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0;
+  animation: fadeup 0.3s ease forwards;
+}
+
+/* ==========================================================================
+   10. SKILLS  (<Skills />)
+   ========================================================================== */
+.skills {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.skill {
+  position: relative;
+  height: 100%;
+  background:
+    radial-gradient(
+      220px circle at var(--gx, 50%) var(--gy, 0%),
+      color-mix(in srgb, var(--accent) 16%, transparent),
+      transparent 70%
+    ),
+    var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  transform: perspective(800px) rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg));
+  transition:
+    transform 0.2s,
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+.skill:hover {
+  border-color: var(--accent);
+  box-shadow: 0 16px 30px -18px var(--accent);
+}
+.badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  display: grid;
+  place-items: center;
+  font: 800 1.15rem var(--display);
+  margin-bottom: 14px;
+  transition: transform 0.6s;
+}
+.skill:hover .badge {
+  transform: rotate(360deg) scale(1.1);
+}
+.skill h3 {
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+}
+.skill p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 0.97rem;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 2px 10px;
+  border-radius: 99px;
+  border: 1px solid var(--line);
+  opacity: 0;
+}
+.rv.in .chip {
+  opacity: 1;
+  animation: pop 0.5s var(--d) backwards;
+}
+
+/* ==========================================================================
+   11. PROJECTS  (<Projects />)
+   ========================================================================== */
+.project {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 34px;
+  align-items: center;
+  margin-bottom: 64px;
+}
+.project.flip .mock {
+  order: 2;
+}
+.project h3 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin-bottom: 12px;
+}
+.project p {
+  color: var(--muted);
+  margin: 0 0 25px;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 0 0 20px;
+  list-style: none;
+}
+.tags li {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 3px 11px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.links a {
+  font-weight: 600;
+  margin-right: 18px;
+  color: var(--accent);
+}
+.mock {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 18px 40px -22px rgba(20, 33, 61, 0.45);
+  transition: transform 0.4s;
+}
+.mock:hover {
+  transform: translateY(-6px);
+}
+.dots {
+  display: flex;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line);
+}
+.project.rv {
+  transform: translateX(-50px);
+}
+.project.flip.rv {
+  transform: translateX(50px);
+}
+.project.rv.in,
+.project.flip.rv.in {
+  transform: none;
+}
+
+/* ---- Project mock-up: shop widget ---- */
+.shop-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  font: 700 1rem var(--display);
+}
+.cart {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 99px;
+  padding: 3px 12px;
+  font: 600 0.85rem var(--body);
+}
+.bump {
+  display: inline-block;
+  animation: bump 0.4s;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 0 16px 16px;
+}
+.item {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 0.82rem;
+}
+.item b {
+  display: block;
+}
+.pic {
+  width: 100%;
+  height: 100px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s;
+}
+.item:hover .pic {
+  transform: scale(1.06);
+}
+.item button,
+.clear {
+  margin-top: 6px;
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  padding: 6px;
+  background: var(--ink);
+  color: var(--bg);
+  font: 600 0.78rem var(--body);
+  cursor: pointer;
+}
+.item button:active {
+  transform: scale(0.94);
+}
+.clear {
+  width: auto;
+  margin: 0 16px 16px;
+  padding: 6px 14px;
+  background: var(--line);
+  color: var(--ink);
+}
+
+/* ---- Project mock-up: coffee widget ---- */
+.coffee {
+  background: var(--coffee);
+  color: var(--crema);
+  padding: 26px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 26px;
+  align-items: center;
+}
+.cupbox {
+  position: relative;
+  width: 112px;
+  padding-top: 34px;
+}
+.steam {
+  position: absolute;
+  top: 0;
+  width: 6px;
+  height: 26px;
+  border-radius: 6px;
+  background: var(--crema);
+  opacity: 0;
+  animation: steam 2.6s ease-in infinite;
+}
+.cup {
+  position: relative;
+  width: 88px;
+  height: 66px;
+  background: var(--crema);
+  border-radius: 4px 4px 44px 44px;
+}
+.cup::after {
+  content: "";
+  position: absolute;
+  right: -22px;
+  top: 10px;
+  width: 26px;
+  height: 30px;
+  border: 7px solid var(--crema);
+  border-left: 0;
+  border-radius: 0 20px 20px 0;
+}
+.cup::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 8px;
+  height: 12px;
+  background: #7a4a2b;
+  border-radius: 50%;
+}
+.coffee h4 {
+  font: 800 1.5rem var(--display);
+  margin: 0 0 8px;
+}
+.coffee ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.92rem;
+}
+.coffee li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed rgba(233, 201, 160, 0.35);
+  padding: 4px 0;
+}
+
+/* ==========================================================================
+   12. CONTACT  (<Contact />)
+   ========================================================================== */
+.contact {
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: 20px;
+  padding: 44px;
+  margin-bottom: 60px;
+}
+.contact p {
+  opacity: 0.85;
+  max-width: 50ch;
+}
+.contact .btn {
+  background: var(--bg);
+  color: var(--ink);
+  border-color: var(--bg);
+}
+/* Overrides the solid background above with an animated gradient — kept in
+   this order on purpose, exactly as in the original file. */
+.contact {
+  background: linear-gradient(
+    120deg,
+    var(--ink),
+    color-mix(in srgb, var(--ink) 65%, var(--accent)),
+    var(--ink)
+  );
+  background-size: 220% 220%;
+  animation: grad 9s ease infinite;
+}
+
+/* ==========================================================================
+   13. FOOTER
+   ========================================================================== */
+footer {
+  padding: 0 0 40px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   14. MEDIA QUERIES  (grouped by component, same order as above)
+   ========================================================================== */
+
+/* ---- 14.1 Global — dark mode via system preference ---- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1224;
+    --surface: #151c36;
+    --ink: #eef1fa;
+    --muted: #9aa5c4;
+    --line: #27305a;
+    --accent: #7f92ff;
+    --accent-ink: #0d1224;
+  }
+}
+
+/* ---- 14.2 Header / Nav — mobile menu (≤760px) ---- */
+@media (max-width: 760px) {
+  .menu {
+    display: block;
+  }
+  nav {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    padding: 0 22px;
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      max-height 0.35s,
+      padding 0.35s;
+  }
+  nav.open {
+    max-height: 300px;
+    padding: 14px 22px;
+  }
+  nav a {
+    padding: 10px 0;
+    font-size: 1.1rem;
+  }
+}
+
+/* ---- 14.3 Hero — mobile blob + button spacing (≤760px) ---- */
+@media (max-width: 760px) {
+  .btn.ghost {
+    margin: 10px 0 0;
+  }
+  .blob {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+/* ---- 14.4 Hero — ID card layout stack (≤900px) ---- */
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-grid h1 {
+    font-size: clamp(2.8rem, 12vw, 4.8rem);
+  }
+  .lanyard {
+    margin-top: 10px;
+    min-height: 520px;
+  }
+  .strap {
+    height: 70px;
+  }
+}
+
+/* ---- 14.5 Marquee — responsive sizing & speed ---- */
+@media (max-width: 1024px) {
+  .marq div {
+    font-size: 1.2rem;
+    animation-duration: 20s;
+  }
+  .marq span {
+    padding-right: 32px;
+  }
+  .marq span::after {
+    margin-left: 32px;
+  }
+}
+@media (max-width: 760px) {
+  .marq {
+    margin-top: 28px;
+    padding: 11px 0;
+  }
+  .marq div {
+    font-size: 1rem;
+    animation-duration: 16s;
+  }
+  .marq span {
+    padding-right: 24px;
+  }
+  .marq span::after {
+    margin-left: 24px;
+  }
+}
+@media (max-width: 420px) {
+  .marq div {
+    font-size: 0.88rem;
+    animation-duration: 13s;
+  }
+  .marq span {
+    padding-right: 18px;
+  }
+  .marq span::after {
+    margin-left: 18px;
+  }
+}
+/* Tap-to-pause on touch devices (no real :hover there) */
+@media (hover: none) {
+  .marq:active div {
+    animation-play-state: paused;
+  }
+}
+
+/* ---- 14.6 CV Download — stack on small phones (≤560px) ---- */
+@media (max-width: 560px) {
+  .cv-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .cv-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ---- 14.7 Skills — single column (≤760px) ---- */
+@media (max-width: 760px) {
+  .skills {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- 14.8 Projects — stack, unflip image order (≤760px) ---- */
+@media (max-width: 760px) {
+  .project {
+    grid-template-columns: 1fr;
+  }
+  .project.flip .mock {
+    order: 0;
+  }
+}
+
+/* ---- 14.9 Contact — tighter padding (≤760px) ---- */
+@media (max-width: 760px) {
+  .contact {
+    padding: 30px 22px;
+  }
+}
+
+/* ---- 14.10 Accessibility — reduced motion (applies globally, kept last) ---- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .ch,
+  .intro,
+  .cta,
+  .rv,
+  .project.rv,
+  .project.flip.rv,
+  .chip {
+    opacity: 1;
+    transform: none;
+  }
+  html {
+    scroll-behavior: auto;
   }
 }
